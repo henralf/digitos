@@ -1,0 +1,30 @@
+<page-header class="p-t-32 p-b-48 m-b--24 bg-blue-900"
+             title="{{'clients.profile' | translate}}" hideBreadcrumb>
+</page-header>
+
+<div fxLayout="row wrap" class="matero-row">
+  <div class="matero-col" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="33.33" fxFlex.gt-md="25">
+    <mat-card>
+      <div class="text-center">
+        <h2 class="m-t-0 m-b-8 f-w-400">{{ client.name }} {{ client.lastname }}</h2>
+        <p class="m-t-0 m-b-8" *ngIf="client.documentType == 'cpf'">{{ client.document | mask: '000.000.000-00' }}</p>
+        <p class="m-t-0 m-b-8" *ngIf="client.documentType == 'cnpj'">{{ client.document | mask: '00.000.000/0000-00' }}</p>
+        <p class="m-t-0 m-b-8">{{ (client.phone != 0 ? client.phone : '') | mask: '(00) 0000-00000' }} {{ (client.phone2 != 0 ? client.phone2 : '') | mask: '(00) 0000-00000' }}</p>
+        <p class="m-t-0 text-grey-500">{{ client.email }}</p>
+      </div>
+      <mat-nav-list class="m-x--16 m-b--16 m-t-16">
+        <mat-divider inset></mat-divider>
+        <a mat-list-item routerLink="overview">
+          <mat-icon class="icon-18 m-r-8">account_circle</mat-icon> {{'clients.overview' | translate}}
+        </a>
+        <mat-divider inset></mat-divider>
+        <a mat-list-item routerLink="settings">
+          <mat-icon class="icon-18 m-r-8">settings</mat-icon> {{'clients.settings' | translate}}
+        </a>
+      </mat-nav-list>
+    </mat-card>
+  </div>
+  <div class="matero-col" fxFlex="100" fxFlex.gt-xs="50" fxFlex.gt-sm="66.67" fxFlex.gt-md="75">
+    <router-outlet></router-outlet>
+  </div>
+</div>

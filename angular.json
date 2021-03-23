@@ -60,17 +60,31 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "hmr": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.hmr.ts"
+                }
+              ]
             }
           }
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "digitos:build"
+            "hmrWarning": false,
+            "browserTarget": "digitos:build",
+            "proxyConfig": "proxy.config.js"
           },
           "configurations": {
             "production": {
               "browserTarget": "digitos:build:production"
+            },
+            "hmr": {
+              "hmr": true,
+              "browserTarget": "digitos:build:hmr"
             }
           }
         },
@@ -123,6 +137,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "digitos"
+    }
+  },
+  "defaultProject": "digitos",
+  "cli": {
+    "analytics": false
+  }
 }

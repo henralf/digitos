@@ -1,0 +1,61 @@
+<page-header></page-header>
+
+<mat-card>
+
+  <section>
+
+    <mat-table
+      [dataSource]="data"
+      matSort>
+
+      <ng-container matColumnDef="name">
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header> {{ 'clients.name' | translate}}</mat-header-cell>
+        <mat-cell *cdkCellDef="let element;"> {{element.name}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="lastname">
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header> {{ 'clients.lastname' | translate}}</mat-header-cell>
+        <mat-cell *cdkCellDef="let element;"> {{element.lastname}} </mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="phone">
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header>{{ 'clients.phone' | translate}}</mat-header-cell>
+        <mat-cell *cdkCellDef="let element;">{{element.phone | mask: '(00) 0000-00000'}}</mat-cell>
+      </ng-container>
+
+      <ng-container matColumnDef="id">
+        <mat-header-cell *cdkHeaderCellDef mat-sort-header></mat-header-cell>
+        <mat-cell *cdkCellDef="let element;">
+
+          <div class="action-button">
+            <a routerLink="/clients/view/{{ element.id }}" mat-icon-button
+               aria-label="View User">
+              <mat-icon>visibility</mat-icon>
+            </a>
+            <button href="/" mat-icon-button (click)="openDeleteDialog(element.id)"
+               aria-label="Delete User">
+              <mat-icon>restore_from_trash</mat-icon>
+            </button>
+          </div>
+
+        </mat-cell>
+      </ng-container>
+
+      <mat-header-row *cdkHeaderRowDef="displayedColumns"></mat-header-row>
+      <mat-row *cdkRowDef="let row; columns: displayedColumns;"></mat-row>
+
+    </mat-table>
+
+    <div *ngIf="isLoadingResults" style="display: flex; justify-content: center; align-items: center; background: white;">
+      <mat-progress-spinner
+        color="primary"
+        mode="indeterminate"
+        diameter="40">
+      </mat-progress-spinner>
+    </div>
+
+    <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+
+  </section>
+
+</mat-card>
