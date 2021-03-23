@@ -2,20 +2,7 @@
   <mat-tab-group class="m-16" (selectedTabChange)="onTabChanged($event);">
     <mat-tab label="Equipamentos">
       <div class="m-16">
-
           <section>
-
-            <div style="display: flex; justify-content: center; align-items: center;" *ngIf="!resultsLengthEquipments && !isLoadingResultsEquipments">
-                <p>{{ 'clients.equipment_register' | translate }}</p>
-            </div>
-
-            <div *ngIf="isLoadingResultsEquipments" style="display: flex; justify-content: center; align-items: center; background: white; margin-top: 15px;">
-              <mat-progress-spinner
-                color="primary"
-                mode="indeterminate"
-                diameter="40">
-              </mat-progress-spinner>
-            </div>
 
             <mat-table
               #sortEquipments="matSort"
@@ -42,12 +29,8 @@
                 <mat-cell *cdkCellDef="let element;">
 
                   <div class="action-button">
-                    <a routerLink="/clients/view/{{ element.id }}" mat-icon-button
-                       aria-label="View User">
-                      <mat-icon>visibility</mat-icon>
-                    </a>
                     <button href="/" mat-icon-button (click)="openDeleteDialog(element.id)"
-                       aria-label="Delete User">
+                       aria-label="Delete">
                       <mat-icon>restore_from_trash</mat-icon>
                     </button>
                   </div>
@@ -60,7 +43,11 @@
 
             </mat-table>
 
-            <mat-paginator [ngClass]="{'hidden': resultsLengthEquipments <= 1}" #paginatorEquipments [length]="resultsLengthEquipments" [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+            <div style="display: flex; justify-content: center; align-items: center;" *ngIf="!resultsLengthEquipments && !isLoadingResultsEquipments">
+                <p>{{ 'clients.equipment_register' | translate }}</p>
+            </div>
+
+            <mat-paginator [ngClass]="{'hidden': resultsLengthEquipments <= 5}" #paginatorEquipments [length]="resultsLengthEquipments" [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
 
           </section>
 
@@ -69,18 +56,6 @@
     <mat-tab label="Ordens">
       <div class="m-16">
           <section>
-
-            <div style="display: flex; justify-content: center; align-items: center;" *ngIf="!resultsLengthOrders && !isLoadingResultsOrders">
-                <p>{{ 'clients.orders_register' | translate }}</p>
-            </div>
-
-            <div *ngIf="isLoadingResultsOrders" style="display: flex; justify-content: center; align-items: center; background: white; margin-top: 15px;">
-              <mat-progress-spinner
-                color="primary"
-                mode="indeterminate"
-                diameter="40">
-              </mat-progress-spinner>
-            </div>
 
             <mat-table
               #sortOrders="matSort"
@@ -112,12 +87,8 @@
                 <mat-cell *cdkCellDef="let element;">
 
                   <div class="action-button">
-                    <a routerLink="/clients/view/{{ element.id }}" mat-icon-button
-                       aria-label="View User">
-                      <mat-icon>visibility</mat-icon>
-                    </a>
                     <button href="/" mat-icon-button (click)="openDeleteDialog(element.id)"
-                       aria-label="Delete User">
+                       aria-label="Delete">
                       <mat-icon>restore_from_trash</mat-icon>
                     </button>
                   </div>
@@ -130,7 +101,11 @@
 
             </mat-table>
 
-            <mat-paginator  [ngClass]="{'hidden': resultsLengthOrders <= 1}" #paginatorOrders [length]="resultsLengthOrders" [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+            <div style="display: flex; justify-content: center; align-items: center;" *ngIf="!resultsLengthOrders && !isLoadingResultsOrders">
+                <p>{{ 'clients.orders_register' | translate }}</p>
+            </div>
+
+            <mat-paginator  [ngClass]="{'hidden': resultsLengthOrders <= 5}" #paginatorOrders [length]="resultsLengthOrders" [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
 
           </section>
 
@@ -139,18 +114,6 @@
     <mat-tab label="{{ 'clients.services' | translate}}">
       <div class="m-16">
           <section>
-
-            <div style="display: flex; justify-content: center; align-items: center;" *ngIf="!resultsLengthServices && !isLoadingResultsServices">
-                <p>{{ 'clients.services_register' | translate }}</p>
-            </div>
-
-            <div *ngIf="isLoadingResultsServices" style="display: flex; justify-content: center; align-items: center; background: white; margin-top: 15px;">
-              <mat-progress-spinner
-                color="primary"
-                mode="indeterminate"
-                diameter="40">
-              </mat-progress-spinner>
-            </div>
 
             <mat-table
               #sortServices="matSort"
@@ -188,7 +151,7 @@
 
                   <div class="action-button">
                     <button href="/" mat-icon-button (click)="openDeleteDialog(element.id)"
-                       aria-label="Delete User">
+                       aria-label="Delete">
                       <mat-icon>restore_from_trash</mat-icon>
                     </button>
                   </div>
@@ -201,7 +164,11 @@
 
             </mat-table>
 
-            <mat-paginator [ngClass]="{'hidden': resultsLengthServices <= 1}" #paginatorServices [length]="resultsLengthServices" [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+            <div style="display: flex; justify-content: center; align-items: center;" *ngIf="!resultsLengthServices && !isLoadingResultsServices">
+                <p>{{ 'clients.services_register' | translate }}</p>
+            </div>
+
+            <mat-paginator [ngClass]="{'hidden': resultsLengthServices <= 5}" #paginatorServices [length]="resultsLengthServices" [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
 
           </section>
 
@@ -210,18 +177,6 @@
     <mat-tab label="Faturas">
       <div class="m-16">
           <section>
-
-            <div style="display: flex; justify-content: center; align-items: center;" *ngIf="!resultsLengthBillings && !isLoadingResultsBillings">
-                <p>{{ 'clients.billings_register' | translate }}</p>
-            </div>
-
-            <div *ngIf="isLoadingResultsBillings" style="display: flex; justify-content: center; align-items: center; background: white; margin-top: 15px;">
-              <mat-progress-spinner
-                color="primary"
-                mode="indeterminate"
-                diameter="40">
-              </mat-progress-spinner>
-            </div>
 
             <mat-table
               #sortBillings="matSort"
@@ -258,12 +213,8 @@
                 <mat-cell *cdkCellDef="let element;">
 
                   <div class="action-button">
-                    <a routerLink="/clients/view/{{ element.id }}" mat-icon-button
-                       aria-label="View User">
-                      <mat-icon>visibility</mat-icon>
-                    </a>
                     <button href="/" mat-icon-button (click)="openDeleteDialog(element.id)"
-                       aria-label="Delete User">
+                       aria-label="Delete">
                       <mat-icon>restore_from_trash</mat-icon>
                     </button>
                   </div>
@@ -276,7 +227,11 @@
 
             </mat-table>
 
-            <mat-paginator  [ngClass]="{'hidden': resultsLengthBillings <= 1}"  #paginatorBillings [length]="resultsLengthBillings" [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+            <div style="display: flex; justify-content: center; align-items: center;" *ngIf="!resultsLengthBillings && !isLoadingResultsBillings">
+                <p>{{ 'clients.billings_register' | translate }}</p>
+            </div>
+
+            <mat-paginator  [ngClass]="{'hidden': resultsLengthBillings <= 5}"  #paginatorBillings [length]="resultsLengthBillings" [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
 
           </section>
 

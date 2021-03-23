@@ -147,6 +147,7 @@ export class ProfileOverviewComponent implements OnInit, AfterViewInit {
         })
       ).subscribe(data => this.dataEquipments = data);
 
+
   }
 
   loadDataOrders(){
