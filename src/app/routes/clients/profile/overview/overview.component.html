@@ -10,7 +10,7 @@
               matSort>
 
               <ng-container matColumnDef="name">
-                <mat-header-cell *cdkHeaderCellDef mat-sort-header> {{ 'clients.equipment' | translate}}</mat-header-cell>
+                <mat-header-cell *cdkHeaderCellDef mat-sort-header>{{ 'clients.equipment' | translate}}</mat-header-cell>
                 <mat-cell *cdkCellDef="let element;"> {{element.name}} </mat-cell>
               </ng-container>
 
@@ -29,7 +29,7 @@
                 <mat-cell *cdkCellDef="let element;">
 
                   <div class="action-button">
-                    <button href="/" mat-icon-button (click)="openDeleteDialog(element.id)"
+                    <button href="/" mat-icon-button (click)="openDeleteDialogEquipments(element.id)"
                        aria-label="Delete">
                       <mat-icon>restore_from_trash</mat-icon>
                     </button>
@@ -64,12 +64,12 @@
 
               <ng-container matColumnDef="equipment">
                 <mat-header-cell *cdkHeaderCellDef mat-sort-header> {{ 'clients.equipment' | translate}}</mat-header-cell>
-                <mat-cell *cdkCellDef="let element;"> {{element.equipment.name}} </mat-cell>
+                <mat-cell *cdkCellDef="let element;"> {{ element.equipment ? element.equipment.name : '******' }} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="brand">
                 <mat-header-cell *cdkHeaderCellDef mat-sort-header> {{ 'clients.brand' | translate}}</mat-header-cell>
-                <mat-cell *cdkCellDef="let element;"> {{element.equipment.brand}} </mat-cell>
+                <mat-cell *cdkCellDef="let element;"> {{ element.equipment ? element.equipment.brand  : '******' }} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="defect">
@@ -87,7 +87,7 @@
                 <mat-cell *cdkCellDef="let element;">
 
                   <div class="action-button">
-                    <button href="/" mat-icon-button (click)="openDeleteDialog(element.id)"
+                    <button href="/" mat-icon-button (click)="openDeleteDialogOrders(element.id)"
                        aria-label="Delete">
                       <mat-icon>restore_from_trash</mat-icon>
                     </button>
@@ -122,12 +122,12 @@
 
               <ng-container matColumnDef="equipment">
                 <mat-header-cell *cdkHeaderCellDef mat-sort-header> {{ 'clients.equipment' | translate}}</mat-header-cell>
-                <mat-cell *cdkCellDef="let element;"> {{element.equipment.name}} </mat-cell>
+                <mat-cell *cdkCellDef="let element;"> {{element.equipment ? element.equipment.name : '******'}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="brand">
                 <mat-header-cell *cdkHeaderCellDef mat-sort-header> {{ 'clients.brand' | translate}}</mat-header-cell>
-                <mat-cell *cdkCellDef="let element;"> {{element.equipment.brand}} </mat-cell>
+                <mat-cell *cdkCellDef="let element;"> {{element.equipment ? element.equipment.brand : '******'}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="value">
@@ -150,7 +150,7 @@
                 <mat-cell *cdkCellDef="let element;">
 
                   <div class="action-button">
-                    <button href="/" mat-icon-button (click)="openDeleteDialog(element.id)"
+                    <button href="/" mat-icon-button (click)="openDeleteDialogServices(element.id)"
                        aria-label="Delete">
                       <mat-icon>restore_from_trash</mat-icon>
                     </button>
@@ -185,12 +185,12 @@
 
               <ng-container matColumnDef="equipment">
                 <mat-header-cell *cdkHeaderCellDef mat-sort-header> {{ 'clients.equipment' | translate}}</mat-header-cell>
-                <mat-cell *cdkCellDef="let element;"> {{element.equipment.name}} </mat-cell>
+                <mat-cell *cdkCellDef="let element;"> {{element.equipment ? element.equipment.name : '******'}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="brand">
                 <mat-header-cell *cdkHeaderCellDef mat-sort-header> {{ 'clients.brand' | translate}}</mat-header-cell>
-                <mat-cell *cdkCellDef="let element;"> {{element.equipment.brand}} </mat-cell>
+                <mat-cell *cdkCellDef="let element;"> {{element.equipment ? element.equipment.brand : '******'}} </mat-cell>
               </ng-container>
 
               <ng-container matColumnDef="value">
@@ -213,7 +213,7 @@
                 <mat-cell *cdkCellDef="let element;">
 
                   <div class="action-button">
-                    <button href="/" mat-icon-button (click)="openDeleteDialog(element.id)"
+                    <button href="/" mat-icon-button (click)="openDeleteDialogBillings(element.id)"
                        aria-label="Delete">
                       <mat-icon>restore_from_trash</mat-icon>
                     </button>

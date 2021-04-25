@@ -9,7 +9,8 @@
         <h2 class="m-t-0 m-b-8 f-w-400">{{ client.name }} {{ client.lastname }}</h2>
         <p class="m-t-0 m-b-8" *ngIf="client.documentType == 'cpf'">{{ client.document | mask: '000.000.000-00' }}</p>
         <p class="m-t-0 m-b-8" *ngIf="client.documentType == 'cnpj'">{{ client.document | mask: '00.000.000/0000-00' }}</p>
-        <p class="m-t-0 m-b-8">{{ (client.phone != 0 ? client.phone : '') | mask: '(00) 0000-00000' }} {{ (client.phone2 != 0 ? client.phone2 : '') | mask: '(00) 0000-00000' }}</p>
+        <p class="m-t-0 m-b-8">{{ (client.phone != 0 ? client.phone : '') | mask: '(00) 0000-00000' }}</p>
+        <p class="m-t-0 m-b-8">{{ (client.phone2 != 0 ? client.phone2 : '') | mask: '(00) 0000-00000' }}</p>
         <p class="m-t-0 text-grey-500">{{ client.email }}</p>
       </div>
       <mat-nav-list class="m-x--16 m-b--16 m-t-16">

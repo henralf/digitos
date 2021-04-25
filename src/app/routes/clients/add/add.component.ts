@@ -31,8 +31,10 @@ export class ClientsAddComponent implements OnInit {
       lastname: [null],
       email: [null],
       document: [null],
-      documentType: [null, [Validators.required]],
-      phone: [null, [Validators.required]],
+      documentType: [null],
+      phoneType: [null],
+      phoneType2: [null],
+      phone: [null],
       phone2: [null]
     });
   }

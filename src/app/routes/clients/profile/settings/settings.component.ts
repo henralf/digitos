@@ -51,8 +51,8 @@ export class ProfileSettingsComponent implements OnInit {
          email: (data.email != '') ? data.email : null,
          document: (data.document != '') ? data.document : null,
          documentType: (data.documentType != '') ? data.documentType : null,
-         phone: (data.phone != 0) ? data.phone : null,
-         phone2: (data.phone2 != 0) ? data.phone2 : null
+         phone: (data.phone != '') ? data.phone : null,
+         phone2: (data.phone2 != '') ? data.phone2 : null
        });
 
      })
@@ -69,6 +69,7 @@ export class ProfileSettingsComponent implements OnInit {
   onSubmit() {
 
     if(this.reactiveFormClient.valid && this.reactiveFormClient.dirty){
+      //this.reactiveFormClient.value.phone2= this.reactiveFormClient.value.phone2 ? this.reactiveFormClient.value.phone2 : 0
       this.clientsService.update(this.profile.id, this.reactiveFormClient.value).subscribe(() => {
           this.profile.loadData();
           this.router.navigate([`clients/view/${this.profile.id}/overview`]);
@@ -96,8 +97,8 @@ export interface ClientModel {
   name: string;
   lastname: string;
   email: string;
-  phone: number;
-  phone2: number;
+  phone: string;
+  phone2: string;
   document: string;
   documentType: string;
   address: Array<any>

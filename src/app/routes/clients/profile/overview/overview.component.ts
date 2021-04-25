@@ -1,8 +1,7 @@
-import {HttpClient} from '@angular/common/http';
 import {Component, ViewChild, AfterViewInit, OnInit} from '@angular/core';
 import {MatPaginator, MatPaginatorIntl} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import {merge, Observable, of as observableOf} from 'rxjs';
+import {merge, of as observableOf} from 'rxjs';
 import {catchError, map, startWith, switchMap} from 'rxjs/operators';
 
 import { DateAdapter } from '@angular/material/core';
@@ -12,7 +11,7 @@ import { TranslateService } from '@ngx-translate/core';
 
 import { MatDialog } from '@angular/material/dialog';
 
-import { ClientsService } from '../../clients.service';
+import { ProfileService, EquipmentModel, OrderModel, ServiceModel, BillingModel } from '../profile.service';
 
 import { ProfileLayoutComponent } from '../profile-layout/profile-layout.component';
 
@@ -37,12 +36,10 @@ export class ProfileOverviewComponent implements OnInit, AfterViewInit {
   displayedColumnsServices: string[] = ['equipment','brand','value','approved','term','id'];
   displayedColumnsOrders: string[] = ['equipment','brand','defect','entry','id'];
 
-  database: HttpDatabase | null;
-
-  dataEquipments: EquipmentModel[] = [];
-  dataServices: ServiceModel[] = [];
-  dataBillings: BillingModel[] = [];
-  dataOrders: OrderModel[] = [];
+  dataEquipments: Array<EquipmentModel> = [];
+  dataServices: Array<ServiceModel> = [];
+  dataBillings: Array<BillingModel> = [];
+  dataOrders: Array<OrderModel> = [];
 
   resultsLengthEquipments = 0;
   isLoadingResultsEquipments = true;
@@ -70,10 +67,9 @@ export class ProfileOverviewComponent implements OnInit, AfterViewInit {
     public dialog: MatDialog,
     private translate: TranslateService,
     private dateAdapter: DateAdapter<any>,
-    private _httpClient: HttpClient,
     private paginatorIntl: MatPaginatorIntl,
-    private clientsService: ClientsService,
-    private profile: ProfileLayoutComponent){}
+    private profile: ProfileLayoutComponent,
+    private profileService:ProfileService){}
 
   ngOnInit() {
 
@@ -104,7 +100,6 @@ export class ProfileOverviewComponent implements OnInit, AfterViewInit {
       pi.changes.next();
     });
 
-    this.database = new HttpDatabase(this._httpClient, this.profile);
   }
 
   ngOnDestroy() {
@@ -131,8 +126,12 @@ export class ProfileOverviewComponent implements OnInit, AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResultsEquipments = true;
-          return this.database!.getAllEquipments(
-            this.sortEquipments.active, this.sortEquipments.direction, ((this.paginatorEquipments.pageIndex*this.paginatorEquipments.pageSize)),this.paginatorEquipments.pageSize);
+          return this.profileService.getAllEquipmentsByUser(
+            this.profile.id,
+            this.sortEquipments.active,
+            this.sortEquipments.direction,
+            ((this.paginatorEquipments.pageIndex*this.paginatorEquipments.pageSize)),
+            this.paginatorEquipments.pageSize);
         }),
         map(data => {
           this.isLoadingResultsEquipments = false;
@@ -146,8 +145,6 @@ export class ProfileOverviewComponent implements OnInit, AfterViewInit {
           return observableOf([]);
         })
       ).subscribe(data => this.dataEquipments = data);
-
-
   }
 
   loadDataOrders(){
@@ -159,8 +156,12 @@ export class ProfileOverviewComponent implements OnInit, AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResultsOrders = true;
-          return this.database!.getAllOrders(
-            this.sortOrders.active, this.sortOrders.direction, ((this.paginatorOrders.pageIndex*this.paginatorOrders.pageSize)),this.paginatorOrders.pageSize);
+          return this.profileService.getAllOrdersByUser(
+            this.profile.id,
+            this.sortOrders.active,
+            this.sortOrders.direction,
+            ((this.paginatorOrders.pageIndex*this.paginatorOrders.pageSize)),
+            this.paginatorOrders.pageSize);
         }),
         map(data => {
           this.isLoadingResultsOrders = false;
@@ -186,8 +187,12 @@ export class ProfileOverviewComponent implements OnInit, AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResultsServices = true;
-          return this.database!.getAllServices(
-            this.sortServices.active, this.sortServices.direction, ((this.paginatorServices.pageIndex*this.paginatorServices.pageSize)),this.paginatorServices.pageSize);
+          return this.profileService.getAllServicesByUser(
+            this.profile.id,
+            this.sortServices.active,
+            this.sortServices.direction,
+            ((this.paginatorServices.pageIndex*this.paginatorServices.pageSize)),
+            this.paginatorServices.pageSize);
         }),
         map(data => {
           this.isLoadingResultsServices = false;
@@ -213,8 +218,12 @@ export class ProfileOverviewComponent implements OnInit, AfterViewInit {
         startWith({}),
         switchMap(() => {
           this.isLoadingResultsBillings = true;
-          return this.database!.getAllBillings(
-            this.sortBillings.active, this.sortBillings.direction, ((this.paginatorBillings.pageIndex*this.paginatorBillings.pageSize)),this.paginatorBillings.pageSize);
+          return this.profileService.getAllBillingsByUser(
+            this.profile.id,
+            this.sortBillings.active,
+            this.sortBillings.direction,
+            ((this.paginatorBillings.pageIndex*this.paginatorBillings.pageSize)),
+            this.paginatorBillings.pageSize);
         }),
         map(data => {
           this.isLoadingResultsBillings = false;
@@ -235,7 +244,31 @@ export class ProfileOverviewComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(DialogDeleteComponent);
     dialogRef.afterClosed().subscribe(result => {
       if(Boolean(JSON.parse(result)))
-        this.clientsService.delete(id).subscribe(() => this.loadDataEquipments());
+        this.profileService.deleteEquipment(id).subscribe(() => this.loadDataEquipments());
+    });
+  }
+
+  openDeleteDialogServices(id: string) {
+    const dialogRef = this.dialog.open(DialogDeleteComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if(Boolean(JSON.parse(result)))
+        this.profileService.deleteService(id).subscribe(() => this.loadDataServices());
+    });
+  }
+
+  openDeleteDialogOrders(id: string) {
+    const dialogRef = this.dialog.open(DialogDeleteComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if(Boolean(JSON.parse(result)))
+        this.profileService.deleteOrder(id).subscribe(() => this.loadDataOrders());
+    });
+  }
+
+  openDeleteDialogBillings(id: string) {
+    const dialogRef = this.dialog.open(DialogDeleteComponent);
+    dialogRef.afterClosed().subscribe(result => {
+      if(Boolean(JSON.parse(result)))
+        this.profileService.deleteBilling(id).subscribe(() => this.loadDataBillings());
     });
   }
 
@@ -247,107 +280,3 @@ export class ProfileOverviewComponent implements OnInit, AfterViewInit {
   templateUrl: 'dialog.delete.html',
 })
 export class DialogDeleteComponent {}
-
-export class HttpDatabase {
-
-  constructor(
-    private _httpClient: HttpClient,
-    private profile: ProfileLayoutComponent) {}
-
-  getAllEquipments(sort: string='id', order: string='desc', page: number=0, limit: number=5): Observable<ModelApi> {
-    const href = `/api/equipments/all/${this.profile.id}`;
-
-    let onsort = (order != '') ? `&_sort=${sort}:${order}`: '&_sort=createdAt:desc';
-
-    let requestUrl = `${href}?_limit=${limit}&_start=${page}${onsort}`
-    return this._httpClient.get<ModelApi>(requestUrl);
-  }
-
-  getAllServices(sort: string='id', order: string='desc', page: number=0, limit: number=5): Observable<ModelApi> {
-    const href = `/api/services/all/${this.profile.id}`;
-
-    let onsort = (order != '') ? `&_sort=${sort}:${order}`: '&_sort=createdAt:desc';
-
-    let requestUrl = `${href}?_limit=${limit}&_start=${page}${onsort}`
-    return this._httpClient.get<ModelApi>(requestUrl);
-  }
-
-  getAllBillings(sort: string='id', order: string='desc', page: number=0, limit: number=5): Observable<ModelApi> {
-    const href = `/api/billings/all/${this.profile.id}`;
-
-    let onsort = (order != '') ? `&_sort=${sort}:${order}`: '&_sort=createdAt:desc';
-
-    let requestUrl = `${href}?_limit=${limit}&_start=${page}${onsort}`
-    return this._httpClient.get<ModelApi>(requestUrl);
-  }
-
-  getAllOrders(sort: string='id', order: string='desc', page: number=0, limit: number=5): Observable<ModelApi> {
-    const href = `/api/orders/all/${this.profile.id}`;
-
-    let onsort = (order != '') ? `&_sort=${sort}:${order}`: '&_sort=createdAt:desc';
-
-    let requestUrl = `${href}?_limit=${limit}&_start=${page}${onsort}`
-    return this._httpClient.get<ModelApi>(requestUrl);
-  }
-}
-
-export interface ModelApi {
-  items: [];
-  total_count: number;
-}
-
-export interface ClientModel {
-  id: number;
-  name: string;
-  lastname: string;
-  email: string;
-  phone: number;
-  phone2: number;
-  document: string;
-  documentType: string;
-  address: Array<any>
-}
-
-export interface EquipmentModel {
-  id: number;
-  client: ClientModel;
-  name: string;
-  model: string;
-  serial: string;
-  annotation: string;
-  orders: [OrderModel];
-  services: [ServiceModel];
-}
-
-export interface OrderModel {
-  id: number;
-  client: ClientModel;
-  equipment: EquipmentModel;
-  entry: string;
-  defect: string;
-  annotation: string;
-}
-
-export interface ServiceModel {
-  id: number;
-  client: ClientModel;
-  equipment: EquipmentModel;
-  order: OrderModel;
-  defect: string;
-  value: number;
-  budget: string;
-  term: string;
-  approved: boolean;
-  warranty: number;
-}
-
-export interface BillingModel {
-  id: number;
-  client: ClientModel;
-  equipment: EquipmentModel;
-  order: OrderModel;
-  service: OrderModel;
-  date: string;
-  value: number;
-  paymentType: string;
-}

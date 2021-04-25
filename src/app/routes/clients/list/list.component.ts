@@ -24,6 +24,7 @@ export class ClientsListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
+  search:any = '';
 
   showAddProduct:boolean = false;
 
@@ -34,8 +35,6 @@ export class ClientsListComponent implements OnInit, AfterViewInit {
   resultsLength = 0;
   isLoadingResults = true;
   isRateLimitReached = false;
-
-  search: string;
 
   translateSubscription: Subscription;
 
@@ -84,6 +83,10 @@ export class ClientsListComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
+    this.loadData();
+  }
+
+  onSubmitSearch(){
     this.loadData();
   }
 
